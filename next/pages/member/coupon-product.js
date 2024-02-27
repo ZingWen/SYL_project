@@ -35,7 +35,7 @@ export default function FavProduct() {
         <SideBar />
         <div className="container d-flex flex-column  align-items-center pt-5">
 
-          <div className={mStyle.card + ' container d-flex flex-column pb-5 align-items-center pt-5'}>
+          <div className={mStyle.card + ' container d-flex flex-column pb-5 mb-5 align-items-center pt-5'}>
             <div className={fpStyle.page_check + " pt-5"}>
               <Link href="" className={fsStyle.pages_btn}>
                 商品優惠
