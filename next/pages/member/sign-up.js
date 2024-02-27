@@ -20,6 +20,9 @@ export default function SignUp() {
 
   const [errorMessage, setErrorMessage] = useState('')
 
+  const [showPassword, setShowPassword] = useState(false);
+  
+
   // 更新表單數據的函式
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -31,17 +34,20 @@ export default function SignUp() {
 
   // 提交表單
   const handleSubmit = (e) => {
-    e.preventDefault()
-
-    const error = SignupExam(formData)
-
-    setErrorMessage(error || '')
-
+    e.preventDefault();
+  
+    const error = SignupExam(formData);
+    setErrorMessage(error || '');
+  
     // 如果沒有錯誤，執行提交表單的邏輯
     if (!error) {
       // ...
     }
   }
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <>
@@ -64,6 +70,7 @@ export default function SignUp() {
                   <FaUser />
                 </InputGroup.Text>
                 <Form.Control
+                  autoFocus
                   className={sStyle.input}
                   type="text"
                   placeholder="使用者名稱"
@@ -80,7 +87,7 @@ export default function SignUp() {
                 </InputGroup.Text>
                 <Form.Control
                   className={sStyle.input}
-                  type="email"
+                  type="text"
                   placeholder="信箱@example.com"
                   style={{ width: '330px' }}
                   name="email"
@@ -96,11 +103,11 @@ export default function SignUp() {
                   </InputGroup.Text>
                   <Form.Control
                     className={sStyle.input}
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="密碼：使用至少8個英文字母含數字"
-                    name={formData.password}
+                    name="password"
+                    value={formData.password}
                     onChange={handleChange}
-                    autoFocus
                     style={{ width: '330px' }}
                   />
                 </InputGroup>
@@ -113,17 +120,18 @@ export default function SignUp() {
                   </InputGroup.Text>
                   <Form.Control
                     className={sStyle.input}
-                    type="password"
-                    name={formData.confirmPassword}
+                    type={showPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="再次輸入密碼"
                     style={{ width: '330px' }}
                   />
                 </InputGroup>
-                <Form.Check className="mx-4" type="checkbox" label="顯示密碼" />
+                <Form.Check className="mx-4" type="checkbox" label="顯示密碼" onChange={togglePasswordVisibility}  />
               </Form.Group>
               <div className={sStyle.error + ' px-4'}>
-              {errorMessage && <h6>{errorMessage}</h6>}
+                {errorMessage && <h6>{errorMessage}</h6>}
               </div>
               <div
                 className={
