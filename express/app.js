@@ -6,6 +6,7 @@ import express from 'express'
 import logger from 'morgan'
 import path from 'path'
 import session from 'express-session'
+import memberRoutes from './routes/member.mjs';
 
 // 使用檔案的session store，存在sessions資料夾
 import sessionFileStore from 'session-file-store'
@@ -90,5 +91,11 @@ app.use(function (err, req, res, next) {
   // 更改為錯誤訊息預設為JSON格式
   res.status(500).send({ error: err })
 })
+
+
+app.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000/');
+});
+
 
 export default app

@@ -41,7 +41,32 @@ export default function SignUp() {
   
     // 如果沒有錯誤，執行提交表單的邏輯
     if (!error) {
-      // ...
+      try {
+        const response = await fetch('/api/member/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            account: formData.username,
+            password: formData.password,
+            email: formData.email,
+          }),
+        });
+  
+        if (response.ok) {
+          // 處理成功的情況
+          const data = await response.json();
+          console.log('註冊成功:', data);
+          // 可以在這裡進行路由跳轉或其他操作
+        } else {
+          // 處理錯誤情況
+          const errorData = await response.json();
+          setErrorMessage(errorData.message);
+        }
+      } catch (error) {
+        setErrorMessage('註冊請求失敗');
+      }
     }
   }
 
