@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+
 import Navbar from '@/components/layout/navbar/navbar'
 import sStyle from '@/styles/member/sign-up.module.scss'
 import Link from 'next/link'
@@ -11,6 +13,8 @@ import { Form, InputGroup, Button, FormControl } from 'react-bootstrap'
 import SignupExam from '@/hooks/member/sign-up-exam'
 
 export default function SignUp() {
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -57,14 +61,18 @@ export default function SignUp() {
         if (response.ok) {
           // 處理成功的情況
           const data = await response.json();
-          console.log('註冊成功:', data);
-          // 可以在這裡進行路由跳轉或其他操作
+          // console.log('註冊成功:', data);
+          // 進行前端路由跳轉到登入
+          router.push('/member/login');
+          
         } else {
           // 處理錯誤情況
           const errorData = await response.json();
+          console.log(errorData); // 輸出錯誤資訊到控制台
           setErrorMessage(errorData.message);
         }
       } catch (error) {
+        console.error('註冊請求失敗:', error.message);
         setErrorMessage('註冊請求失敗');
       }
     }

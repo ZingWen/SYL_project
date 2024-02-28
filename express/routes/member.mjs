@@ -37,7 +37,7 @@ router.post('/register', async function (req, res) {
 
   } catch (error) {
     res.status(500).send({ message: '註冊失敗' });
-    console.error('数据库操作错误:', error);
+    console.error('數據庫相關錯誤:', error);
   }
 });
 
