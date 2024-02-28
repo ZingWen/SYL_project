@@ -6,7 +6,6 @@ import express from 'express'
 import logger from 'morgan'
 import path from 'path'
 import session from 'express-session'
-import memberRoutes from './routes/member.mjs';
 
 // 使用檔案的session store，存在sessions資料夾
 import sessionFileStore from 'session-file-store'
@@ -69,9 +68,13 @@ const routePath = path.join(__dirname, 'routes')
 const filenames = await fs.promises.readdir(routePath)
 
 for (const filename of filenames) {
-  const item = await import(pathToFileURL(path.join(routePath, filename)))
-  const slug = filename.split('.')[0]
-  app.use(`${apiPath}/${slug === 'index' ? '' : slug}`, item.default)
+  const item = await import(pathToFileURL(path.join(routePath, filename)));
+  const slug = filename.split('.')[0];
+  const route = `${apiPath}/${slug === 'index' ? '' : slug}`;
+
+  app.use(route, item.default);
+
+  console.log(`已註冊的api路由: ${route}`);
 }
 // 載入routes中的各路由檔案，並套用api路由 END
 
@@ -91,11 +94,6 @@ app.use(function (err, req, res, next) {
   // 更改為錯誤訊息預設為JSON格式
   res.status(500).send({ error: err })
 })
-
-
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000/');
-});
 
 
 export default app

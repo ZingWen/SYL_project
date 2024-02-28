@@ -33,7 +33,7 @@ export default function SignUp() {
   }
 
   // 提交表單
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
     const error = SignupExam(formData);
@@ -42,7 +42,7 @@ export default function SignUp() {
     // 如果沒有錯誤，執行提交表單的邏輯
     if (!error) {
       try {
-        const response = await fetch('/api/member/register', {
+        const response = await fetch('http://localhost:3005/api/member/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ export default function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="newpassword">
+              <Form.Group className="mb-3" controlId="confirmPassword">
                 <InputGroup className="mb-3 px-4">
                   <InputGroup.Text>
                     <MdKey />
