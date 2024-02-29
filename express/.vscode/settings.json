@@ -12,8 +12,5 @@
     "editor.defaultFormatter": "mtxr.sqltools"
   },
   "javascript.preferences.importModuleSpecifierEnding": "js",
-  "typescript.preferences.importModuleSpecifierEnding": "js",
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
-  }
+  "typescript.preferences.importModuleSpecifierEnding": "js"
 }
