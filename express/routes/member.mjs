@@ -65,15 +65,18 @@ router.post('/login', async function (req, res) {
       // 登入成功的處理
       // 使用者帳號密碼正確，生成JWT
       const userId = userResults[0].id; 
-      const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'fallback_secret_key';
+      const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
       const token = jwt.sign({ userId }, accessTokenSecret, { expiresIn: '1h' });
 
       res.cookie('accessToken', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // 建議僅在生產環境中啟用 Secure
+        secure: false, // 只在非開發用 // 開發用(實際要true)
+        sameSite: 'strict', // 增加對 CSRF 攻擊的保護
+        maxAge: 3600000 // 設置 Cookie 有效期為 1 小時
       });
       
       res.status(200).send({ message: '登入成功' });
+
     } else {
       return res.status(401).send({ message: '使用者名稱或密碼不正確' });
     }
@@ -89,5 +92,17 @@ router.post('/login', async function (req, res) {
 router.post('/logout', function (req, res) {
   // 登出邏輯...
 });
+
+// 檢查會員狀態(登入or not) 
+router.get('/auth-status', (req, res) => {
+  const token = req.cookies['accessToken'];
+
+  if (token) {
+    res.json({ isLoggedIn: true });
+  } else {
+    res.json({ isLoggedIn: false });
+  }
+});
+
 
 export default router;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import checkLogin from '@/context/checkLogin'
 
 import Navbar from '@/components/layout/navbar/navbar'
 import sStyle from '@/styles/member/sign-up.module.scss'
@@ -12,7 +13,7 @@ import { Form, InputGroup, Button, FormControl } from 'react-bootstrap'
 
 import SignupExam from '@/hooks/member/sign-up-exam'
 
-export default function SignUp() {
+export default function register() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -194,4 +195,8 @@ export default function SignUp() {
       </div>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  return await checkLogin(context);
 }

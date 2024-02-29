@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
+import checkLogin from '@/context/checkLogin'
 
 import Navbar from '@/components/layout/navbar/navbar'
 import sStyle from '@/styles/member/sign-in.module.scss'
@@ -10,8 +11,10 @@ import { FaUser, FaEnvelope } from 'react-icons/fa'
 import { MdKey } from 'react-icons/md'
 import { Form, InputGroup, Button, FormControl } from 'react-bootstrap'
 
-export default function SignIn() {
+export default function logIn() {
   const router = useRouter()
+  
+
   const [formData, setFormData] = useState({
     account: '',
     password: '',
@@ -41,6 +44,7 @@ export default function SignIn() {
     try {
       const response = await fetch('http://localhost:3005/api/member/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -55,7 +59,7 @@ export default function SignIn() {
         console.log('登入成功:', data)
 
         const token = data.token
-        AuthService.setToken(data.token)
+        
         console.log('登入成功:', data)
 
         router.push('/') //這首頁
@@ -156,4 +160,8 @@ export default function SignIn() {
       </div>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  return await checkLogin(context);
 }
