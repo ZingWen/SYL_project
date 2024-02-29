@@ -106,9 +106,9 @@ function onListening() {
     console.log('Listening on pipe ' + addr);
   } else {
     // 如果 server.address() 傳回的 addr 是 Object 對象，通常表示伺服器監聽的是一個網頁連接埠（port）
-    bind = 'port ' + addr.port;
+    bind = 'http://localhost:' + addr.port;
     console.log('Listening on ' + bind);
   }
 
-  debug('Listening on ' + bind);
+  debug('express api Listening on ' + bind); 
 }

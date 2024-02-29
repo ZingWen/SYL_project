@@ -37,11 +37,11 @@ export default function FavProduct() {
 
           <div className={mStyle.card + ' container d-flex flex-column pb-5 mb-5 align-items-center pt-5'}>
             <div className={fpStyle.page_check + " pt-5"}>
-              <Link href="" className={fsStyle.pages_btn}>
+              <Link href="/member/coupon-product" className={fsStyle.pages_btn}>
                 商品優惠
               </Link>
               <h3 className={pStyle.gray_text}>|</h3>
-              <Link href="" className={fsStyle.pagep_btn}>
+              <Link href="/member/coupon-delivery" className={fsStyle.pagep_btn}>
               <span></span>運費優惠
               </Link>
             </div>

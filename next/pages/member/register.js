@@ -16,7 +16,7 @@ export default function SignUp() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    username: '',
+    account: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -52,7 +52,7 @@ export default function SignUp() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            account: formData.username,
+            account: formData.account,
             password: formData.password,
             email: formData.email,
           }),
@@ -73,7 +73,6 @@ export default function SignUp() {
         }
       } catch (error) {
         console.error('註冊請求失敗:', error.message);
-        setErrorMessage('註冊請求失敗');
       }
     }
   }
@@ -108,8 +107,8 @@ export default function SignUp() {
                   type="text"
                   placeholder="使用者名稱"
                   style={{ width: '330px' }}
-                  name="username"
-                  value={formData.username}
+                  name="account"
+                  value={formData.account}
                   onChange={handleChange}
                 />
               </InputGroup>
@@ -129,7 +128,7 @@ export default function SignUp() {
                 />
               </InputGroup>
 
-              <Form.Group className="mb-3" controlId="password">
+              <Form.Group className="mb-3">
                 <InputGroup className="mb-3 px-4">
                   <InputGroup.Text>
                     <MdKey />
@@ -146,7 +145,7 @@ export default function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="confirmPassword">
+              <Form.Group className="mb-3">
                 <InputGroup className="mb-3 px-4">
                   <InputGroup.Text>
                     <MdKey />

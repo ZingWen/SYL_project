@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import db from '../configs/db.js';
-import { generateHash } from '../db-helpers/password-hash.js';
+import { generateHash, compareHash } from '../db-helpers/password-hash.js';
 
 router.post('/register', async function (req, res) {
   const { account, email } = req.body;
@@ -43,9 +43,36 @@ router.post('/register', async function (req, res) {
 
 
 // 登入路由
-router.post('/login', function (req, res) {
-  // 登入邏輯...
+// 登入路由
+router.post('/login', async function (req, res) {
+  const { account, password } = req.body;
+
+  try {
+    // 檢查使用者是否存在
+    const userQuery = 'SELECT * FROM member WHERE account = ?';
+    const [userResults] = await db.execute(userQuery, [account]);
+
+    if (userResults.length > 0) {
+      const dbPassword = userResults[0].password;
+      const passwordCompare = await compareHash(password, dbPassword);
+      // console.log('passwordCompare:', passwordCompare);
+
+      if (!passwordCompare) {
+        return res.status(401).send({ message: '使用者名稱或密碼不正確' });
+      }
+
+      // 登入成功的處理
+      res.status(200).send({ message: '登入成功' });
+    } else {
+      return res.status(401).send({ message: '使用者名稱或密碼不正確' });
+    }
+
+  } catch (error) {
+    console.error('登入路由發生錯誤:', error);
+    res.status(500).send({ message: '登入失敗，內部伺服器錯誤', error: error.message });
+  }
 });
+
 
 // 登出路由
 router.post('/logout', function (req, res) {
