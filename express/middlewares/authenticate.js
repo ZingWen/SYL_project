@@ -1,18 +1,11 @@
 import jsonwebtoken from 'jsonwebtoken'
-
-// 存取`.env`設定檔案使用
 import 'dotenv/config.js'
 
-// 獲得加密用字串
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
 
-// 中介軟體middleware，用於檢查授權(authenticate) --舉例請看最下面
 export default function authenticate(req, res, next) {
-  // const token = req.headers['authorization']
-  const token = req.cookies.accessToken
-  // console.log(token)
+  const token = req.headers.authorization
 
-  // if no token
   if (!token) {
     return res.json({
       status: 'error',
@@ -20,7 +13,6 @@ export default function authenticate(req, res, next) {
     })
   }
 
-  // verify的callback會帶有decoded payload(解密後的有效資料)，就是user的資料
   jsonwebtoken.verify(token, accessTokenSecret, (err, user) => {
     if (err) {
       return res.json({
@@ -29,8 +21,7 @@ export default function authenticate(req, res, next) {
       })
     }
 
-    // 將user資料加到req中
-    req.user = user
+    req.memberData = user
     next()
   })
 }
@@ -50,18 +41,14 @@ app.get('/private', authenticate, (req, res) => {
 }); 
 
 
-//在前端的部分則是只要有需要經過會員驗證就要加一個屬性跟值credentials: 'include', (表示允許攜帶跨域的cookie)
- try {
-      const response = await fetch('http://localhost:3005/api/member/login', {
-        method: 'POST',
-        credentials: 'include', //要加這一行  首頁那些(不用登入也看得到的)才不用加
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          account: formData.account,
-          password: formData.password,
-        }),
-      })
+//在前端的部分則是只要有需要經過會員驗證就要加一個屬性跟值
+
+      fetch('http://localhost:3005/api/member/auth-status', {
+      method: 'GET', //或其他方法
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`, //要加這一行  首頁那些(不用登入也看得到的)才不用加
+      },
+    })
 
 */

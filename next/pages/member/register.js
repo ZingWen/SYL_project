@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import checkLogin from '@/context/checkLogin'
+import mainCheckLogin from '@/context/member/mainCheckLogin'
 
 import Navbar from '@/components/layout/navbar/navbar'
 import sStyle from '@/styles/member/sign-up.module.scss'
@@ -89,10 +89,10 @@ export default function register() {
         <div className="d-flex justify-content-center align-items-center vh-100">
           <div className={sStyle.sign_body}>
             <div className="d-flex">
-              <Link href="" className={sStyle.in_togglebtn + ' flex-grow-1'}>
+              <Link href="/member/login" className={sStyle.in_togglebtn + ' flex-grow-1'}>
                 登入
               </Link>
-              <Link href="" className={sStyle.up_togglebtn + ' flex-grow-1'}>
+              <Link href="/member/register" className={sStyle.up_togglebtn + ' flex-grow-1'}>
                 註冊
               </Link>
             </div>
@@ -198,5 +198,5 @@ export default function register() {
 }
 
 export async function getServerSideProps(context) {
-  return await checkLogin(context);
+  return await mainCheckLogin(context);
 }
